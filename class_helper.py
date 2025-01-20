@@ -260,7 +260,9 @@ class Classification_Helper():
         knn = neighbors.KNeighborsClassifier()
         logistic = linear_model.LogisticRegression(solver='lbfgs',
                                                    max_iter=1000,
-                                                   multi_class='multinomial')
+                                                   # sklearn >= 1.5: multinomial is default and use is deprecated
+                                                   # multi_class='multinomial'
+                                                   )
 
         print('KNN score: %f' % knn.fit(X_train, y_train).score(X_test, y_test))
         print('LogisticRegression score: %f'
@@ -531,7 +533,8 @@ class Classification_Helper():
             
 
         clf_lr = LogisticRegression(C=50. / X_train.shape[0],  # n.b. C is 1/(regularization penalty)
-                                    multi_class='multinomial',
+                                     # sklearn >= 1.5: multinomial is default and use is deprecated
+                                    # multi_class='multinomial',
                                     # penalty='l1',   # n.b., "l1" loss: sparsity (number of non-zero) >> "l2" loss (dafault)
                                     solver='saga', tol=0.1)
 
