@@ -12,6 +12,8 @@ from sklearn.utils import check_random_state
 
 from sklearn import datasets, svm, metrics
 
+from sklearn.metrics import confusion_matrix
+
 import pdb
 
 class MNIST_Helper():
@@ -218,6 +220,13 @@ class MNIST_Helper():
         else:
             print('Confusion matrix, without normalization')
 
+        # sklearn's ConfusionMatrixDisplay method
+        #   disp = ConfusionMatrixDisplay(confusion_matrix=cm,
+        #                              display_labels=classes,
+        #                               )
+        # would give a similar plot but creates its own fig, ax
+        # rather than being able to pass in the ax
+   
         plt.imshow(cm, interpolation='nearest', cmap=cmap)
         plt.title(title)
         plt.colorbar()

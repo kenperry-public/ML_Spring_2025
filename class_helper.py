@@ -8,6 +8,8 @@ from matplotlib.colors import ListedColormap
 from sklearn import datasets, neighbors, linear_model
 from sklearn.model_selection import train_test_split
 
+from sklearn.metrics import confusion_matrix
+
 import functools
 import itertools
 
@@ -336,7 +338,8 @@ class Classification_Helper():
                               normalize=False,
                               title=None,
                               cmap=plt.cm.Blues,
-                              fig=None, ax=None
+                              fig=None,
+                              ax=None
                               ):
 
         """
@@ -344,7 +347,7 @@ class Classification_Helper():
         Normalization can be applied by setting `normalize=True`.
         """
         if ax is None:
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots() 
 
         if title is None:
             title = 'Confusion matrix'
@@ -360,6 +363,13 @@ class Classification_Helper():
         else:
             print('Confusion matrix, without normalization')
 
+        # sklearn's ConfusionMatrixDisplay method
+        #   disp = ConfusionMatrixDisplay(confusion_matrix=cm,
+        #                                 display_labels=classes,
+        #                              )
+        # would give a similar plot but creates its own fig, ax
+        # rather than being able to pass in the ax
+        
         ax.imshow(cm, interpolation='nearest', cmap=cmap)
         ax.set_title(title)
 
