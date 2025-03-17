@@ -277,6 +277,62 @@ class Charts_Helper():
 
         return fig, ax
 
+    def tf_sequential_arch(self, ax, num_layers=5, rect_width=0.5, rect_height=1.5, spacing=1.2,
+                           # Labels
+                           fontsize=16,
+                           label_extra_vspace=0,
+                           labels=[]
+                          ):     
+        # Draw rectangles and arrows
+        for i in range(num_layers):
+            rect = plt.Rectangle((i*spacing, 0), rect_width, rect_height, color='lightgrey', edgecolor='black')
+            ax.add_patch(rect)
+
+            if i < num_layers:
+                ax.annotate('', xy=((i+1)*spacing, rect_height/2), 
+                            xytext=(i*spacing + rect_width, rect_height/2),
+                            arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='black')
+                           )
+                
+                if (i < len(labels) and len(labels[i]) > 0):
+                    label = labels[i]
+                    ax.annotate(label, xy=((i+1)*spacing, rect_height/2), 
+                                xytext=(i*spacing + rect_width/2,
+                                        - 0.1 * rect_height - label_extra_vspace
+                                        ),
+                                fontsize=fontsize
+                               )
+
+        # Set axis limits and labels
+        ax.set_xlim(-0.5, num_layers*(rect_width+spacing))  # Adjusted limit for longer rectangles
+        ax.set_ylim(0, rect_height + 0.5)
+        ax.set_aspect('equal')
+        ax.axis('off')
+        
+        return ax
+
+    def tf_functional_arch(self, ax, num_layers=5, rect_width=0.5, rect_height=1.5, spacing=1.2):
+        # Draw rectangles and arrows
+        for i in range(num_layers):
+            rect = plt.Rectangle((i*spacing, 0), rect_width, rect_height, color='lightgrey', edgecolor='black')
+            ax.add_patch(rect)
+
+            if i < num_layers-1:
+                ax.annotate('', xy=((i+1)*spacing, rect_height/2), xytext=(i*spacing + rect_width, rect_height/2),
+                                arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='black'))
+
+                if i == 1:
+                    ax.annotate('', xy=(3*spacing + rect_width, rect_height), xytext=(1*spacing, rect_height),
+                                arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=-0.5', color='black'))
+
+        # Set axis limits and labels
+        ax.set_xlim(-0.5, num_layers*(rect_width+spacing))  # Adjusted limit for longer rectangles
+        ax.set_ylim(0, rect_height + 0.5)
+        ax.set_aspect('equal')
+        ax.axis('off')
+
+        return ax
+
 
     def draw_surface(self, visible=None):
         if visible is None:
